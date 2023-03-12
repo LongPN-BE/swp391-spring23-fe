@@ -1,0 +1,46 @@
+body {
+    
+    #app {
+      .profile-btn{
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: black;
+      }
+      .btn-primary{
+        color: black;
+        padding: 9px 25px;
+        background-color: #fe9f0c;
+        outline: none;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease 0s;
+      }
+      .btn-primary:hover{
+        background-color: #ff7b00;
+      }
+      .card {
+        width: 250px;
+        // height: 300px;
+        // overflow: auto;
+      }
+  
+      #circle-avatar {
+        display: grid;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #ffbd30;
+        place-items: center;
+  
+        span {
+          font-size: 48px;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+  

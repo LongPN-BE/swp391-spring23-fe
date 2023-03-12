@@ -1,0 +1,159 @@
+
+.deleteButtonn{
+  padding: 5px 10px;
+      font-size: 15px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      outline: none;
+      color: #fff;
+      background-color: #ee5253;
+      border: none;
+      border-radius: 8px;
+}
+
+//--ticket butt
+.ticketButton {
+      padding: 5px 10px;
+      font-size: 15px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      outline: none;
+      color: #fff;
+      background-color: #fdcb6e;
+      border: none;
+      border-radius: 8px;
+}
+
+.ticketButton:hover {background-color: #ff9f43;
+  color: #fff;
+
+}
+
+.ticketButton:active {
+  color: #fff;
+  background-color: #ff9f43;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+//----update butt
+.updateButton {
+  padding: 5px 10px;
+  font-size: 15px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #74b9ff;
+  border: none;
+  border-radius: 8px;
+}
+
+.updateButton:hover {background-color: #0984e3;
+  color: #fff;
+
+}
+
+.updateButton:active {
+  color: #fff;
+  background-color: #0984e3;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+.newButton{
+  right: 0;
+  padding: 5px 10px;
+  font-size: 15px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 8px;
+}
+
+.newButton:hover {background-color: #3e8e41;
+  color: #fff;
+
+}
+
+.newButton:active {
+  color: #fff;
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.table {
+  
+  .cellWrapper {
+    display: flex;
+    align-items: center;
+
+    .image {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      margin-right: 10px;
+      object-fit: cover;
+    }
+  }
+
+  .cellAction {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    
+
+
+    .viewButton {
+      padding: 2px 5px;
+      border-radius: 5px;
+      color: darkblue;
+      border: 1px dotted rgba(0, 0, 139, 0.596);
+      cursor: pointer;
+    }
+
+    
+
+
+
+    
+  }
+
+  .status {
+    padding: 5px;
+    border-radius: 5px;
+    border-color: black;
+
+    &.Coming {
+      color: yellow;
+      background-color: rgba(189, 189, 3, 0.103);
+    }
+
+    &.Ending {
+      color: red;
+      background-color: rgba(189, 189, 3, 0.103);
+    }
+
+    &.On-going {
+      color: green;
+      background-color: rgba(189, 189, 3, 0.103);
+    }
+
+    &.Update {
+      color: red;
+      background-color: rgba(189, 189, 3, 0.103);
+    }
+
+    &.Unavailable {
+      color: red;
+      background-color: rgba(189, 189, 3, 0.103);
+    }
+  }
+}

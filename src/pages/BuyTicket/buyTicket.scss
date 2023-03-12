@@ -1,0 +1,32 @@
+.stadium-map{
+    display: flex;
+    justify-content: center;
+    img{
+        height: 300px;
+        width: auto;
+    }
+}
+
+.purchase-title{
+    h1{
+        font-weight: 700;
+    }
+}
+
+.buyBox{
+    border-radius: 15px;
+    border: 0;
+}
+
+.purchase-btn{
+    border: 0;
+    background: #FE9F0C;
+}
+
+.purchase-btn:hover{
+    background-color: #ff7b00;
+}
+
+.purchase-input{
+    width: 300px;
+}

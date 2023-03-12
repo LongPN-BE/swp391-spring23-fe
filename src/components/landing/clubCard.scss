@@ -1,0 +1,135 @@
+.card__info{
+  width: auto;
+  height: 50px;
+}
+
+.card__container {
+  font-family: "Montserrat",sans-serif;;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0 3.5rem;
+  h3{
+      width: 90%;
+      text-align: left;
+      text-transform: capitalize;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: rgb(58, 58, 58);
+  }
+    &--inner{
+      width: 90%;
+      padding: 5px;
+      display: block;
+      &--card{
+        padding: 10px ;
+        max-width: 308px;
+        color: #fff;
+        font-size: 50px;
+        text-align: center;
+        // background-color: #0a9e88;
+        transition: all .1s ease;
+  
+        h2{
+            color: rgb(58, 58, 58);
+            font-size: 1.5vw;
+            font-weight: 600;
+            padding-left: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1;
+            padding-top: 8px;
+        }
+        h3{
+          color: rgb(58, 58, 58);
+          font-size: 1.2vw;
+          font-weight: 600;
+          padding-left: 8px;
+          white-space: nowrap;
+          // overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 1;
+          padding-top: 8px;
+      }
+        p{
+            font-size: 1vw;
+            font-weight: 500;
+            color: rgb(58, 58, 58);
+          span{
+              color: rgb(58, 58, 58);
+              font-size: 1.2vw;
+              font-weight: 600;
+              padding-left: 8px;
+          }
+        }
+       img{
+            width: 200px;
+            height: 200px;
+            border-radius: 1vw;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            -webkit-box-pack: center;
+            justify-content: center;
+            border-radius: 90px;
+            margin-bottom: 10px;
+        }
+        
+      
+      &:hover{
+        transform: scale(1.05);
+        cursor: pointer;
+      }
+    
+      &--date_time{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img{
+          width: 20px;
+          height: 20px;
+          object-fit: contain;
+          margin: 0;
+        }
+        p{
+        color: #636e72;
+          font-weight: bold;
+          margin: 0;
+        }
+      }
+    }
+    }
+    
+  }
+  
+  /* -------------------------------------------------------------- */
+  /* SLICK REACT CAROUSEL */
+  /* -------------------------------------------------------------- */
+  .slick-next,
+  .slick-prev {
+    padding: 14px;
+      width: 2vw;
+      height: 2vw;
+      cursor: pointer;
+      border: none;
+      border-radius: 5vw;
+      background-color: var(--10) !important;
+      z-index: 99 !important;
+      top: 40%;
+      &:hover{
+      background-color:#f6f6f6 ;
+
+      }
+  }
+  
+  
+  // .slick-next {
+  //   // margin-right: 3.2%;
+  // }
+  // .slick-prev {
+  //   // margin-left: .;
+  // }
+  
