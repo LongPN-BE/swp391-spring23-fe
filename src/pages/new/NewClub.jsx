@@ -4,6 +4,7 @@ import Navbar from "../../components/navbar/Navbar";
 import { useEffect, useState } from "react";
 import { clubInput } from "../../formSource";
 import axios from "../../AxiosConfig";
+import Axios from "axios";
 import { DriveFolderUploadOutlined } from "@mui/icons-material";
 import Swal from "sweetalert2";
 
@@ -60,14 +61,7 @@ const New = () => {
       data.append("file", file);
       data.append("upload_preset", "upload");
       try {
-        const uploadRes = await axios.post("https://api.cloudinary.com/v1_1/dlpfx0tnv/image/upload", data, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }).catch(error => {
-          showError(error)
-          console.log(error);
-        });
+        const uploadRes = await Axios.post("https://api.cloudinary.com/v1_1/dg7i8w3xh/image/upload", data);
 
         const { url } = uploadRes.data;
 

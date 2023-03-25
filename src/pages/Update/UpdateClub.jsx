@@ -3,6 +3,7 @@ import axios from "../../AxiosConfig";
 import { useState, useEffect } from "react";
 import { DriveFolderUploadOutlined } from "@mui/icons-material";
 import Swal from "sweetalert2";
+import Axios from "axios";
 
 var path = "clubs/";
 var pathStadium = "stadiums/";
@@ -86,11 +87,7 @@ const UpdateClub = (props) => {
                     const data = new FormData();
                     data.append("file", file);
                     data.append("upload_preset", "upload");
-                    const uploadRes = await axios.post("https://api.cloudinary.com/v1_1/dlpfx0tnv/image/upload", data, {
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    });
+                    const uploadRes = await Axios.post("https://api.cloudinary.com/v1_1/dg7i8w3xh/image/upload", data);
 
                     const { url } = uploadRes.data;
                     const updateClub = {
