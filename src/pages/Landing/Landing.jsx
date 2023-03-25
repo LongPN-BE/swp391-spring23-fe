@@ -9,6 +9,7 @@ import { Alert, Row, Col } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import axios from "../../AxiosConfig";
 import Navbar from "../../components/landing/Navbar";
+import moment from 'moment';
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -19,23 +20,27 @@ const Landing = () => {
 
     var pathMatch = "/matches";
     const [matches, setMatches] = useState([]);
+    const list = [];
 
     useEffect(
         function () {
             localStorage.removeItem("onClickMatch")
-            axios.get(pathMatch).then(function (response) {
-                setMatches(response.data)
-                console.log(response.data)
-            })
+            axios.get(pathMatch)
+                .then(function (response) {
+                    Array.from(response.data).sort().map((x) => {
+                        if (!moment(x.date).isBefore(Date.now())) {
+                            list.push(x)
+
+                        }
+                    })
+                    setMatches(list)
+                })
                 .catch(function (err) {
                     console.log(32, err);
                 });
         },
         []
     );
-
-
-
 
 
     return (
@@ -53,7 +58,9 @@ const Landing = () => {
                         </Alert>
                     )
                         : (
-                            Array.from(matches).map((x) => <MatchCard key={x._id} match={x} />)
+                            Array.from(matches).sort().map((x) =>
+                                <MatchCard key={x._id} match={x} />
+                            )
                         )
                     }</div>
                 <ClubCard />

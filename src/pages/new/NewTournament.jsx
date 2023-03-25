@@ -1,15 +1,15 @@
 import "./new.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
-import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+import Swal from "sweetalert2";
 import { useState } from "react";
 import axios from "../../AxiosConfig";
 
 var pathTournament = "tournaments/";
 const New = () => {
     const [formValue, setFormValue] = useState({
-        tournamentname: "",
-        year : ""
+        name: "",
+        year: ""
     });
 
     //handle Change value
@@ -23,24 +23,40 @@ const New = () => {
         });
     };
 
-    const { tournamentname, year } = formValue;
-    //function
+    const { name, year } = formValue;
+    //function Handle Submit--------------------
+    function showSuccess() {
+        Swal.fire({
+            title: "Create Success",
+            text: "Tournament : " + name + " in " + year,
+            icon: "success",
+            confirmButtonText: "OK",
+        }).then(function () {
+            window.location.href = "../match"
+        });
+    }
+
+    function showError(text) {
+        Swal.fire({
+            title: "Oops...",
+            text: text,
+            icon: "error",
+            confirmButtonText: "OK",
+        })
+    }
+
     function handleSubmit(event) {
         event.preventDefault();
-        //To do code here
-        alert("Add New Tournament : " + tournamentname + "-" + year)
         axios.post(pathTournament, {
             "year": year,
-            "name": tournamentname
-          })
+            "name": name
+        })
             .then(response => {
-              alert("Add success")
-              //Go to club page
-              return window.location.href = "../match"
+                showSuccess()
             })
             .catch(error => {
-              alert(error)
-              console.log(error);
+                showError(error)
+                console.log(error);
             });
         //end to do code
     }
@@ -61,18 +77,21 @@ const New = () => {
                             <div className="formInput" >
                                 <label>Tournament Name</label>
                                 <input type="text"
-                                name="tournamentname"
-                                onChange={handleChange}
-                                 placeholder="V.League 1 - 2021" />
+                                    name="name"
+                                    onChange={handleChange}
+                                    placeholder="V.League 1 - 2021"
+                                    required />
                             </div>
 
                             {/* End Date */}
                             <div className="formInput" >
-                            <label>Year</label>
+                                <label>Year</label>
                                 <input type="text"
-                                name="year"
-                                onChange={handleChange}
-                                 placeholder="2023" />
+                                    name="year"
+                                    onChange={handleChange}
+                                    placeholder="2023"
+                                    required
+                                />
                             </div>
 
 

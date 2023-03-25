@@ -49,7 +49,7 @@ const Ticket = () => {
                 </div>
               </div>
             </div>
-            <div className="right">
+            <div className="left">
               <h1 className="title">Visitor Club</h1>
               <img
                 src={data.logoAwayClub}

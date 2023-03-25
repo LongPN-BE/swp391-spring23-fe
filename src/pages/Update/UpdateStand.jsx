@@ -1,13 +1,14 @@
 import "./update.scss";
 import { useEffect, useState } from "react";
 import axios from "../../AxiosConfig";
+import { Col } from "react-bootstrap";
+import StadiumMap from "./stadium-map.png"
+import Swal from "sweetalert2";
 
 var path = "stands/";
-
 const UpdateStand = (props) => {
     const idStandStadium = localStorage.getItem("idStandStadium")
     const [stadium, setStadium] = useState([]);
-    const [stand, setStand] = useState([]);
 
     useEffect(
         function () {
@@ -15,18 +16,19 @@ const UpdateStand = (props) => {
                 .get("stadiums/" + idStandStadium)
                 .then(function (respone) {
                     setStadium(respone.data);
-                    console.log(respone.data)
                 })
                 .catch(function (err) {
                     console.log(32, err);
                 });
 
             axios
-                .get(path + props.props)
+                .get("stands/" + props.props)
                 .then(function (respone) {
-                    name = respone.data.name;
-                    quantitySeat = respone.data.quantitySeat
-                    console.log(respone.data)
+                    setFormValue({
+                        name: respone.data.name,
+                        quantitySeat: respone.data.quantitySeat,
+                        stadiumId: respone.data.stadiumId
+                    })
                 })
                 .catch(function (err) {
                     console.log(32, err);
@@ -54,25 +56,42 @@ const UpdateStand = (props) => {
 
     const { name, quantitySeat } = formValue;
     //function
+    function showError(text) {
+        Swal.fire({
+            title: 'Oops...',
+            text: text,
+            icon: "error",
+            confirmButtonText: "OK",
+        })
+    }
+
     function handleSubmit(event) {
         event.preventDefault();
-        //To do code here
-        alert("Add New Round : " + name + "-" + quantitySeat + "-" + idStandStadium)
-        axios.put(path + props.props, {
-            "name": name,
-            "quantitySeat": quantitySeat,
-            "stadiumId": idStandStadium
+        Swal.fire({
+            title: 'Do you want to save the ' + name + ' changes?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            denyButtonText: `Don't save`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.put(path + props.props, {
+                    "name": name,
+                    "quantitySeat": quantitySeat,
+                    "stadiumId": idStandStadium
+                })
+                    .then(response => {
+                        Swal.fire('Saved!', '', 'success')
+                            .then(response => { window.location.href = "/standbystadium" })
+                    })
+                    .catch(error => {
+                        showError(error)
+                        console.log(error);
+                    });
+            } else if (result.isDenied) {
+                Swal.fire('Changes are not saved', '', 'info')
+            }
         })
-            .then(response => {
-                alert("Update success")
-                //Go to Stadium page
-                return window.location.href = "/standbystadium"
-            })
-            .catch(error => {
-                alert(error)
-                console.log(error);
-            });
-        //end to do code
     }
 
     return (
@@ -81,6 +100,11 @@ const UpdateStand = (props) => {
                 <div className="top">
                     <h1>Update Stand</h1>
                 </div>
+                <Col xs={12} md={12}>
+                    <div className="stadium-map">
+                        <img src={StadiumMap} alt="" />
+                    </div>
+                </Col>
                 <div className="bottom">
                     <div className="right">
                         <form onSubmit={handleSubmit}>
@@ -91,7 +115,7 @@ const UpdateStand = (props) => {
                                 <input type="text"
                                     disabled
                                     defaultValue={stadium.name}
-                                    placeholder="Ho Chi Minh City FC" />
+                                    placeholder="Ho Chi Minh City FC" required />
                             </div>
 
                             {/* Name */}
@@ -101,7 +125,7 @@ const UpdateStand = (props) => {
                                     name="name"
                                     value={name}
                                     onChange={handleChange}
-                                    placeholder="" />
+                                    placeholder="" required />
                             </div>
 
                             {/* Seat Quantity */}
@@ -111,10 +135,8 @@ const UpdateStand = (props) => {
                                     name="quantitySeat"
                                     value={quantitySeat}
                                     onChange={handleChange}
-                                    placeholder="" />
+                                    placeholder="" required />
                             </div>
-
-
 
                             {/* Button Send to add new */}
                             <div className="btnSend">

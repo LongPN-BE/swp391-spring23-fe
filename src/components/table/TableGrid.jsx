@@ -5,14 +5,14 @@ import Paper from "@mui/material/Paper";
 import { useState, useEffect } from "react";
 import axios from "../../AxiosConfig";
 import LoadingSpinner from "../../pages/LoadingWait/LoadingSpinner";
-import { useNavigate } from "react-router-dom";
+
 
 var path = "order/user/";
 const Datatable = () => {
     const userId = localStorage.getItem("userId")
     const [data, setData] = useState([]);
     const [isShow, setShow] = useState(true)
-    const navigate = useNavigate();
+
     //UseEffect here ------------------------------------------------------------------------------
     useEffect(
         function () {

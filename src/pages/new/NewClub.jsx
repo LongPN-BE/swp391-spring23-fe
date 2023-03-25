@@ -5,9 +5,8 @@ import { useEffect, useState } from "react";
 import { clubInput } from "../../formSource";
 import axios from "../../AxiosConfig";
 import { DriveFolderUploadOutlined } from "@mui/icons-material";
+import Swal from "sweetalert2";
 
-var path = "clubs/";
-var pathStadium = "stadiums/";
 const New = () => {
   const [file, setFile] = useState("");
   const [info, setInfo] = useState({});
@@ -32,26 +31,66 @@ const New = () => {
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
+  // Handle Submit -----------------------------------------------
+  function showSuccess() {
+    Swal.fire({
+      title: "Create Success",
+      text: "Club " + info.name,
+      icon: "success",
+      confirmButtonText: "OK",
+    }).then(function () {
+      window.location.href = "/standbystadium"
+    });
+  }
+
+  function showError(text) {
+    Swal.fire({
+      title: "Oops...",
+      text: text,
+      icon: "error",
+      confirmButtonText: "OK",
+    })
+  }
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const data = new FormData();
-    data.append("file", file);
-    data.append("upload_preset", "upload");
-    try {
-      const uploadRes = await axios.post("https://api.cloudinary.com/dg7i8w3xh/image/upload", data);
+    if (stadiumId == null || stadiumId == 0) alert("Please select a stadium!")
+    else {
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "upload");
+      try {
+        const uploadRes = await axios.post("https://api.cloudinary.com/v1_1/dlpfx0tnv/image/upload", data, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).catch(error => {
+          showError(error)
+          console.log(error);
+        });
 
-      const { url } = uploadRes.data;
+        const { url } = uploadRes.data;
 
-      const newClub = {
-        ...info,
-        stadiumId: stadiumId,
-        logo: url,
-      };
-      console.log("handle click", newClub)
-      await axios.post("/clubs", newClub);
-    } catch (err) {
-      console.log(err);
+        const newClub = {
+          ...info,
+          stadiumId: stadiumId,
+          logo: url,
+        };
+        console.log("handle click", newClub)
+        await axios.post("/clubs", newClub)
+          .then(response => {
+            showSuccess()
+          })
+          .catch(error => {
+            showError(error)
+            console.log(error);
+          });
+        window.location.href = "/club"
+      } catch (err) {
+        showError(err)
+        console.log(err);
+      }
+
     }
   };
 
@@ -94,6 +133,7 @@ const New = () => {
                     type={input.type}
                     placeholder={input.placeholder}
                     id={input.id}
+                    required
                   />
                 </div>
               ))}
@@ -103,6 +143,7 @@ const New = () => {
                 <label>Stadium</label>
                 <select name="stadiumId"
                   onChange={e => setStadiumId(e.target.value)}>
+                  <option value={0}>-- SELECT STADIUM --</option>
                   {loading
                     ? "loading.."
                     : dataStadium &&

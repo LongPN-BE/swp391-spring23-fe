@@ -52,16 +52,16 @@ const DetailCard = (data) => {
 
 
                     <div className="formInput" >
-                        <label>Quantity: {data.data.amount}</label>
+                        <label>Amount: {data.data.amount}</label>
                     </div>
 
                     <div className="formInput" >
-                        <label>Price: {dataTicket.price}</label>
+                        <label>Price: {dataTicket.price} VNĐ</label>
                     </div>
                     <hr />
 
                     <div className="formInput" >
-                        <label>Total: {data.data.total}</label>
+                        <label>Total: {data.data.total} VNĐ</label>
                     </div>
 
 

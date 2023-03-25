@@ -4,31 +4,23 @@ import Navbar from "../../components/navbar/Navbar";
 import { useState, useEffect } from "react";
 import axios from "../../AxiosConfig";
 import moment from "moment";
+import Swal from "sweetalert2";
 
 //path
 var pathClub = "clubs/";
 var pathStadium = "stadiums/";
-var pathTournament = "tournaments/";
-var pathRound = "rounds/";
 var pathMatch = "matches/";
 const UpdateMatch = () => {
   //data--------------------------------------------------------
-  const [dataTournament, setDataTournament] = useState([]);
-  const [DataRound, setDataRound] = useState([]);
   const [dataClub, setDataClub] = useState([]);
   const [dataStadium, setDataStadium] = useState([]);
   const [data, setData] = useState([]);
   const [homeClubId, setHomeClubId] = useState();
   const [awayClubId, setAwayClubId] = useState();
-  const [roundId, setRoundId] = useState();
   const [stadiumId, setStadiumId] = useState();
   const [date, setDate] = useState();
-
   var id = localStorage.getItem("editMatchId");
-  const [formValue, setFormValue] = useState({
-    stadiumId: "",
-    date: ""
-  });
+
   //useEffect
   useEffect(
     function () {
@@ -73,32 +65,43 @@ const UpdateMatch = () => {
 
 
   //handle Change Search round by Tournament-----------------------------------------------------
+  function showError(text) {
+    Swal.fire({
+      title: 'Oops...',
+      text: text,
+      icon: "error",
+      confirmButtonText: "OK",
+    })
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
-    //To do code here
-    alert("Update matchs: "
-      + "\n -Club home: " + homeClubId
-      + "\n- club Away:" + awayClubId
-      + "\n- club StadiumId:" + stadiumId
-      + "\n- club Time Start:" + date)
-    axios.put(pathMatch + id, {
-      "homeClubId": homeClubId,
-      "awayClubId": awayClubId,
-      "stadiumId": stadiumId,
-      "date": date
+    Swal.fire({
+      title: 'Do you want to save the match changes?',
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'Save',
+      denyButtonText: `Don't save`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.put(pathMatch + id, {
+          "homeClubId": homeClubId,
+          "awayClubId": awayClubId,
+          "stadiumId": stadiumId,
+          "date": date
+        })
+          .then(response => {
+            Swal.fire('Saved!', '', 'success')
+              .then(response => { window.location.href = "../match" })
+          })
+          .catch(error => {
+            showError(error)
+            console.log(error);
+          });
+      } else if (result.isDenied) {
+        Swal.fire('Changes are not saved', '', 'info')
+      }
     })
-      .then(response => {
-        alert("Update success")
-        console.log(response.data)
-        //Go to club page
-        return window.location.href = "../match"
-      })
-      .catch(error => {
-        alert(error)
-        console.log(error);
-      });
-
-    //end to do code
   }
 
 

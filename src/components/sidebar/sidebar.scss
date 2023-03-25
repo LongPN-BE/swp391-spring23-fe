@@ -26,6 +26,11 @@
     border: 0.5px solid rgb(230, 227, 227);
   }
 
+  .button-logout{
+    text-decoration: none;
+    border:none;
+    background-color: white;
+  }
   .center {
     padding-left: 10px;
 
@@ -63,6 +68,7 @@
             color: #888;
             margin-left: 10px;
         }
+        
       }
     }
   }

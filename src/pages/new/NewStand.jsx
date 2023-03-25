@@ -1,14 +1,16 @@
 import "./new.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
-import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useEffect, useState } from "react";
 import axios from "../../AxiosConfig";
+import { Col } from "react-bootstrap";
+import StadiumMap from "./stadium-map.png"
+import Swal from "sweetalert2";
+import { standInput } from "../../formSource";
 
 var path = "stands/";
-
 const NewStand = () => {
-    const idStandStadium = localStorage.getItem("idStandStadium")
+    var idStandStadium = localStorage.getItem("idStandStadium")
     const [stadium, setStadium] = useState([]);
 
     useEffect(
@@ -23,7 +25,7 @@ const NewStand = () => {
                     console.log(32, err);
                 });
         },
-        []
+        [idStandStadium]
     );
 
     const [formValue, setFormValue] = useState({
@@ -33,37 +35,51 @@ const NewStand = () => {
     });
 
     //handle Change value
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormValue((prevState) => {
-            return {
-                ...prevState,
-                [name]: value,
-            };
-        });
+    const handleChange = (e) => {
+        setFormValue((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     };
 
     const { name, quantitySeat } = formValue;
     //function
+    function showSuccess() {
+        Swal.fire({
+            title: "Create Success",
+            text: "Stand : " + name + " with quantity seat :" + quantitySeat,
+            icon: "success",
+            confirmButtonText: "OK",
+        }).then(function () {
+            window.location.href = "/standbystadium"
+        });
+    }
+
+    function showError(text) {
+        Swal.fire({
+            title: "Oops...",
+            text: text,
+            icon: "error",
+            confirmButtonText: "OK",
+        })
+    }
+
+
     function handleSubmit(event) {
         event.preventDefault();
         //To do code here
-        alert("Add New Round : " + name + "-" + quantitySeat + "-" + idStandStadium)
         axios.post(path + idStandStadium, {
             "name": name,
             "quantitySeat": quantitySeat,
             "stadiumId": idStandStadium
         })
             .then(response => {
-                alert("Add success")
-                //Go to Stadium page
-                return window.location.href = "/standbystadium"
+                showSuccess();
             })
             .catch(error => {
-                alert(error)
+                showError(error);
                 console.log(error);
             });
         //end to do code
+
+
     }
 
     return (
@@ -74,6 +90,11 @@ const NewStand = () => {
                 <div className="top">
                     <h1>New Stand</h1>
                 </div>
+                <Col xs={12} md={12}>
+                    <div className="stadium-map">
+                        <img src={StadiumMap} alt="" />
+                    </div>
+                </Col>
                 <div className="bottom">
                     <div className="right">
                         <form onSubmit={handleSubmit}>
@@ -87,23 +108,18 @@ const NewStand = () => {
                                     placeholder="Ho Chi Minh City FC" />
                             </div>
 
-                            {/* Name */}
-                            <div className="formInput" >
-                                <label>Name Of Stand</label>
-                                <input type="text"
-                                    name="name"
-                                    onChange={handleChange}
-                                    placeholder="" />
-                            </div>
-
-                            {/* Seat Quantity */}
-                            <div className="formInput" >
-                                <label>Seat Quantity</label>
-                                <input type="number"
-                                    name="quantitySeat"
-                                    onChange={handleChange}
-                                    placeholder="" />
-                            </div>
+                            {standInput.map((input) => (
+                                <div className="formInput" key={input.id}>
+                                    <label>{input.label}</label>
+                                    <input
+                                        onChange={handleChange}
+                                        type={input.type}
+                                        placeholder={input.placeholder}
+                                        id={input.id}
+                                        required
+                                    />
+                                </div>
+                            ))}
 
 
 

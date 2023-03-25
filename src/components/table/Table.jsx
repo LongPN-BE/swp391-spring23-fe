@@ -6,6 +6,8 @@ import axios from "../../AxiosConfig";
 import { useState } from "react";
 import LoadingSpinner from "../../pages/LoadingWait/LoadingSpinner";
 import { useEffect } from "react";
+import swal from 'sweetalert';
+import Swal from "sweetalert2";
 
 function List(props) {
   console.log(props)
@@ -37,19 +39,40 @@ function List(props) {
   };
 
   //Handle delete here ----------------------------------------------------------------------
+  function showError(text) {
+    Swal.fire({
+      title: "Oops...",
+      text: text,
+      icon: "error",
+      confirmButtonText: "OK",
+    })
+  }
+ 
   const handleDelete = (id) => {
-    // setData(data.filter((item) => item.id !== id));
-    console.log(id);
-    axios.delete("matches/" + id)
-      .then(res => {
-        console.log("check delete ", res);
-        alert('Deleted match by id: ' + id);
-        setData(data.filter((item) => item.id !== id));
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-  };
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this " + id + "!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+              axios.delete("matches/" + id)
+                    .then(res => {
+                        swal("Poof! " + id + " has been deleted!", {
+                            icon: "success",
+                        });
+                        window.location.reload();
+                    })
+                    .catch(function (err) {
+                        showError(err);
+                    });
+            } else {
+                swal(id + " is safe!");
+            }
+        });
+};
 
   // Form action of data grid----------------------------------------------------------
   const actionColumn = [

@@ -18,8 +18,10 @@ const Update = () => {
                 .get(path + id)
                 .then(function (data) {
                     console.log(data.data);
-                    year = data.data.year;
-                    tournamentname = data.data.name;
+                    setFormValue({
+                        year: data.data.year,
+                        tournamentname: data.data.name,
+                    })
                 })
                 .catch(function (err) {
                     console.log(32, err);
@@ -79,7 +81,7 @@ const Update = () => {
                                 <input type="text"
                                     name="tournamentname"
                                     value={tournamentname}
-                                    onChange = {handleChange}/>
+                                    onChange={handleChange} required />
                             </div>
 
                             {/* Year */}
@@ -88,7 +90,7 @@ const Update = () => {
                                 <input type="number"
                                     name="year"
                                     value={year}
-                                    onChange={handleChange}/>
+                                    onChange={handleChange} required />
                             </div>
 
                             {/* Button Send */}

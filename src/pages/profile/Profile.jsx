@@ -57,6 +57,7 @@ const Profile = () => {
           <div className="bottom">
             <h1 className="title">Last Transactions</h1>
             <Datatable />
+
           </div>
         </div>
       </div>

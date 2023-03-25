@@ -7,9 +7,20 @@
       text-decoration: none;
       outline: none;
       color: #fff;
-      background-color: #ee5253;
+      background-color: #f39f9f;
       border: none;
       border-radius: 8px;
+}
+.deleteButtonn:hover {background-color: #f47d7d;
+  color: #fff;
+
+}
+
+.deleteButtonn:active {
+  color: #fff;
+  background-color: #f47d7d;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
 }
 
 //--ticket butt

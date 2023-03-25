@@ -55,58 +55,18 @@ export const userInputs = [
     }
   ];
   
-  
-  export const stadiumInput = [
-    {
-      id: 1,
-      label: "ID",
-      type: "text",
-      placeholder: "Stadium01",
-    },
-    {
-      id: 2,
-      label: "Name",
-      type: "text",
-      placeholder: "Name of stadium",
-    },
-    {
-      id: 3,
-      label: "Location",
-      type: "text",
-      placeholder: "Localtion of stadiun",
-    },
-    {
-      id: 4,
-      label: "Capcity",
-      type: "text",
-      placeholder: "Thong Nhat",
-    },
-  ];
-  
 
-  export const matchInput = [
+  export const standInput = [
     {
-      id: 1,
-      label: "ID",
-      type: "text",
-      placeholder: "Stadium01",
-    },
-    {
-      id: 2,
+      id: "name",
       label: "Name",
       type: "text",
-      placeholder: "Name of stadium",
+      placeholder: "Stand name here",
     },
     {
-      id: 3,
-      label: "Location",
-      type: "text",
-      placeholder: "Localtion of stadiun",
-    },
-    {
-      id: 4,
-      label: "Capcity",
-      type: "text",
-      placeholder: "Thong Nhat",
+      id: "quantitySeat",
+      label: "Quantity Seat",
+      type: "number",
+      placeholder: "Number",
     },
   ];

@@ -108,9 +108,7 @@ const BuyCard = ({ ticket, date, matchId, showDetails = true }) => {
                                 <div className="pt-3" >
                                     <div className="" >
                                         <label>STAND</label>
-                                        <select name="stand" className='purchase-input form-control' required
-                                            onChange={handleChange}
-                                        >
+                                        <select name="stand" className='purchase-input form-control' onClick={handleChange}>
                                             {ticket.map((x) => (
                                                 <option className='purchase-input form-control' key={x._id} value={x._id} required>{x.nameStand}</option>
                                             ))
@@ -142,7 +140,7 @@ const BuyCard = ({ ticket, date, matchId, showDetails = true }) => {
                     <Row className="justify-content-center text-center">
                         <Col className="d-flex  justify-content-center align-items-center">
                             <h5 className="mt-3 ms-1 fw-bold">
-                                TOTAL :
+                                TOTAL : {price * amount}
                             </h5>
                         </Col>
                     </Row>

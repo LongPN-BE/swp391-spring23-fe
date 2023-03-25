@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import axios from "../../AxiosConfig";
 import LoadingSpinner from "../../pages/LoadingWait/LoadingSpinner";
 import Update from "../../pages/Update/UpdateStand"
+import swal from 'sweetalert';
+import Swal from "sweetalert2";
 
 var path = "/stands/";
 var stadiumId = localStorage.getItem("idStandStadium");
@@ -22,7 +24,6 @@ const ListStand = () => {
                 .get(path + "/stadium/" + stadiumId)
                 .then(function (respone) {
                     setData(respone.data);
-                    console.log(respone.data)
                     setisRender(false)
                 })
                 .catch(function (err) {
@@ -33,16 +34,37 @@ const ListStand = () => {
     );
 
     //Handle Delete here ----------------------------------------------------------------------------
+    function showError(text) {
+        Swal.fire({
+            title: "Oops...",
+            text: text,
+            icon: "error",
+            confirmButtonText: "OK",
+        })
+    }
     const handleDelete = (id) => {
-        console.log(id);
-        axios.delete(path + id)
-            .then(res => {
-                console.log(res);
-                alert('Deleted stand by id: ' + id);
-                setData(data.filter((item) => item.id !== id));
-            })
-            .catch(function (err) {
-                console.log(err);
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this " + id,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    axios.delete(path + id)
+                        .then(res => {
+                            swal("Poof! " + id + " has been deleted!", {
+                                icon: "success",
+                            });
+                            window.location.reload();
+                        })
+                        .catch(function (err) {
+                            showError(err);
+                        });
+                } else {
+                    swal(id + " is safe!");
+                }
             });
     };
 

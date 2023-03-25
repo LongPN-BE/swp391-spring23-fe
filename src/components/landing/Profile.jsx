@@ -14,8 +14,7 @@ const Profile = () => {
 
 
     const handleLogout = () => {
-        localStorage.removeItem("user")
-        localStorage.removeItem("access_token")
+        window.localStorage.clear();
         console.log("user is logged out")
         window.location.href = "/"
     }
@@ -67,9 +66,9 @@ const Profile = () => {
                             <hr style={{ margin: "0 -24px 24px" }} />
 
                             <div className="d-grid">
-                                <a href="/" className="btn btn-primary">
-                                    <span onClick={handleLogout}>Logout</span>
-                                </a>
+                                <button onClick={handleLogout} className="btn btn-primary">
+                                    <span >Logout</span>
+                                </button>
                             </div>
                         </div>
                     </div>

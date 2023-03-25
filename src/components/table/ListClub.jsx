@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import axios from "../../AxiosConfig";
 import Update from "../../pages/Update/UpdateClub";
 import LoadingSpinner from "../../pages/LoadingWait/LoadingSpinner";
+import swal from 'sweetalert';
+import Swal from "sweetalert2";
 
 var path = "clubs";
 const ListStadium = () => {
@@ -31,19 +33,39 @@ const ListStadium = () => {
     );
 
     // Delete function ----------------------------------------------------------
+    function showError(text) {
+        Swal.fire({
+            title: "Oops...",
+            text: text,
+            icon: "error",
+            confirmButtonText: "OK",
+        })
+    }
     const handleDelete = (id) => {
-        console.log(id);
-        axios.delete(path + "/" + id)
-            .then(res => {
-                console.log(res);
-                alert('Deleted club by id: ' + id);
-                setData(data.filter((item) => item.id !== id));
-            })
-            .catch(function (err) {
-                console.log(err);
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this " + id,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    axios.delete(path + "/" + id)
+                        .then(res => {
+                            swal("Poof! " + id + " has been deleted!", {
+                                icon: "success",
+                            });
+                            window.location.reload();
+                        })
+                        .catch(function (err) {
+                            showError(err);
+                        });
+                } else {
+                    swal(id + " is safe!");
+                }
             });
     };
-
     // Handle Update ----------------------------------------------------------
     const handleUpdate = (id) => {
         setDataFormvalue(id)

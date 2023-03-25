@@ -3,9 +3,9 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import { useState, useEffect } from "react";
 import axios from "../../AxiosConfig";
+import Swal from "sweetalert2";
 
 var ticketId = localStorage.getItem("editTicketId");
-var matchId = localStorage.getItem("idClickTicketByMatch")
 var pathUpdate = "match/tickets/";
 const UpdateTicket = () => {
     //data--------------------------------------------------------
@@ -23,7 +23,6 @@ const UpdateTicket = () => {
             //get data match by id
             axios.get(pathUpdate + matchId + "/" + ticketId)
                 .then(function (data) {
-                    console.log("Test search ticket by id", data.data);
                     setMatchId(data.data.matchId);
                     setStandId(data.data.standId);
                     setStand(data.data.nameStand);
@@ -37,41 +36,46 @@ const UpdateTicket = () => {
         },
         []
     );
-    //check data logs
-    console.log("================================");
-    console.log("Ticket ID :", ticketId);
-    console.log("Match ID :", matchId);
-    console.log("Stand ID :", standId);
-    console.log("Stand :", stand)
-    console.log("Quantity onchange :", quantity);
-    console.log("Price onchange :", price);
-    console.log("Status :", status);
-
 
     //handle Change Search round by Tournament-----------------------------------------------------
+    function showError(text) {
+        Swal.fire({
+            title: 'Oops...',
+            text: text,
+            icon: "error",
+            confirmButtonText: "OK",
+        })
+    }
+
     function handleSubmit(event) {
         event.preventDefault();
-        //To do code here
-        axios.put(pathUpdate + matchId + "/" + ticketId, {
-            "matchId": matchId,
-            "standId": standId,
-            "nameStand": stand,
-            "quantity": quantity,
-            "price": price,
-            "status": status
+        Swal.fire({
+            title: 'Do you want to save the ' + ticketId + ' changes?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            denyButtonText: `Don't save`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.put(pathUpdate + matchId + "/" + ticketId, {
+                    "matchId": matchId,
+                    "standId": standId,
+                    "nameStand": stand,
+                    "quantity": quantity,
+                    "price": price,
+                    "status": status
+                }).then(response => {
+                    Swal.fire('Saved!', '', 'success')
+                        .then(response => { window.location.href = "../ticket" })
+                })
+                    .catch(error => {
+                        showError(error)
+                        console.log(error);
+                    });
+            } else if (result.isDenied) {
+                Swal.fire('Changes are not saved', '', 'info')
+            }
         })
-            .then(response => {
-                alert("Success")
-                console.log(quantity + " " + standId + " " + ticketId + " " + matchId + " " + price)
-                return window.location.href = "../ticket"
-                //Go to club page
-            })
-            .catch(error => {
-                alert(error)
-                console.log(error);
-            });
-
-        //end to do code
     }
 
     return (
@@ -99,13 +103,13 @@ const UpdateTicket = () => {
                             {/* Club Visitor */}
                             <div className="formInput" >
                                 <label>Amount</label>
-                                <input type="number" defaultValue={quantity} onChange={e => setQuantity(e.target.value)} />
+                                <input type="number" defaultValue={quantity} onChange={e => setQuantity(e.target.value)} required />
                             </div>
 
                             {/* Stadium for match */}
                             <div className="formInput" >
                                 <label>Price</label>
-                                <input type="number" defaultValue={price} onChange={e => setPrice(e.target.value)} />
+                                <input type="number" defaultValue={price} onChange={e => setPrice(e.target.value)} required />
                             </div>
 
                             <div className="btnSend">

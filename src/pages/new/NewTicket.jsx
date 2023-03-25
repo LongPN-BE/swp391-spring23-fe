@@ -4,6 +4,7 @@ import Navbar from "../../components/navbar/Navbar";
 import { useEffect, useState } from "react";
 import axios from "../../AxiosConfig"
 import { Alert } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 var pathMatch = "matches/";
 var matchId = localStorage.getItem("idClickTicketByMatch");
@@ -58,14 +59,45 @@ const New = () => {
         [name]: value,
       };
     });
+    console.log("Test onchange :" + name + " - Value: " + value)
   };
 
   const { idArea, amount, price } = formValue;
+
+  function showAlert() {
+    Swal.fire({
+      title: "Create Success",
+      text: "Ticket amount: " + amount + " with price: " + price,
+      icon: "success",
+      confirmButtonText: "OK",
+    }).then(function () {
+      window.location.href = "../ticket"
+    });
+  }
+
+  function showError(text) {
+    Swal.fire({
+      title: "Oops...",
+      text: text,
+      icon: "error",
+      confirmButtonText: "OK",
+    })
+  }
+
+  function showWarning(text) {
+    Swal.fire({
+      title: "Please !",
+      text: text,
+      icon: "info",
+      confirmButtonText: "OK",
+    })
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
-    if (idArea) {
+    if (idArea == null || idArea == 0) showWarning("Please select a stand!")
+    else {
       //To do code here
-      alert("Add New Ticket : " + matchId + "-" + idArea + "-" + amount + "-" + price)
       axios.post(pathTicket + matchId, {
         "standId": idArea,
         "matchId": matchId,
@@ -73,14 +105,13 @@ const New = () => {
         "quantity": amount
       })
         .then(response => {
-          alert("Add success")
-          return window.location.href = "../ticket"
+          showAlert()
         })
         .catch(error => {
-          alert(error)
+          showError(error)
           console.log(error);
         });
-    } else alert("Please pick a stand!")
+    }
   }
 
   const form = (
@@ -121,7 +152,8 @@ const New = () => {
           <div className="formInput" >
             <label> Stand </label>
             <select name="idArea" required
-              onClick={handleChange}>
+              onChange={handleChange}>
+              <option value={0} >-- SELECT STAND --</option>
               {dataTicket.map((entity) => (
                 <option value={entity._id} id={entity._id}>{entity.name}</option>
               ))}

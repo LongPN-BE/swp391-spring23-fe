@@ -77,12 +77,12 @@ const Sidebar = () => {
             </li>
           </Link>
 
-          <Link to="/" style={{ textDecoration: "none" }}>
+          <button className="button-logout">
             <li>
               <ExitToAppIcon className="icon" />
               <span onClick={handleLogout}>Logout</span>
             </li>
-          </Link>
+          </button>
         </ul >
       </div >
     </div >

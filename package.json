@@ -43,6 +43,9 @@
     "sass": "^1.49.9",
     "slick-carousel": "^1.8.1",
     "split": "^1.0.1",
+    "storage-factory": "^0.2.1",
+    "sweetalert": "^2.1.2",
+    "sweetalert2": "^11.7.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
