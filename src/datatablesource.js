@@ -82,6 +82,9 @@ export const stadiumColumns = [
   {
     field: "capcity",
     headerName: "Capacity",
+    valueFormatter: params => {
+      return params.value.toLocaleString();
+    },
     width: 100,
   }
 ];
@@ -100,6 +103,9 @@ export const standColums = [
   {
     field: "quantitySeat",
     headerName: "Seat Quantity",
+    valueFormatter: params => {
+      return params.value.toLocaleString();
+    },
     width: 120,
   },
 ];
@@ -110,35 +116,29 @@ export const ticketColumns = [
   {
     field: "_id",
     headerName: "ID",
-    width: 70,
+    width: 100,
   },
   {
     field: "nameStand",
     headerName: "Stand",
-    width: 120,
+    width: 200,
   },
   {
     field: "quantity",
-    headerName: "Account",
-    width: 120,
+    headerName: "Quantity",
+    valueFormatter: params => {
+      return params.value.toLocaleString();
+    },
+    width: 200,
   },
   {
     field: "price",
     headerName: "Ticket",
-    width: 150,
-  },
-  {
-    field: "status",
-    headerName: "Status",
-    width: 160,
-    renderCell: (params) => {
-      return (
-        <div className={`cellWithStatus ${params.row.status}`}>
-          {params.row.status}
-        </div>
-      );
+    valueFormatter: params => {
+      return params.value.toLocaleString() + " VNĐ";
     },
-  },
+    width: 200,
+  }
 ];
 
 //const of oder list
@@ -156,20 +156,11 @@ export const oderColumns = [
   {
     field: "totalPrice",
     headerName: "Total Payment",
+    valueFormatter: params => {
+      return params.value.toLocaleString() + " VNĐ";
+    },
     width: 150,
   },
-  // {
-  //   field: "status",
-  //   headerName: "Status",
-  //   width: 160,
-  //   renderCell: (params) => {
-  //     return (
-  //       <div className={`cellWithStatus ${params.row.status}`}>
-  //         {params.row.status}
-  //       </div>
-  //     );
-  //   },
-  // },
 ];
 
 export const userOrderColumns = [
@@ -196,6 +187,9 @@ export const userOrderColumns = [
   {
     field: "totalPrice",
     headerName: "Total Payment",
+    valueFormatter: params => {
+      return params.value.toLocaleString() + " VNĐ";
+    },
     width: 150,
   }
 ];
@@ -253,8 +247,12 @@ export const matchColumns = [
   {
     field: "date",
     headerName: "Date",
-    valueFormatter: params =>
-      moment(params?.value).format("DD/MM/YYYY hh:mm A"),
+    valueFormatter: params => {
+      if (moment(params?.value).isBefore(Date.now())) {
+        return "MATCH ENDED"
+      } return moment(params?.value).format("DD/MM/YYYY hh:mm A")
+    }
+    ,
     width: 130,
   },
 ];

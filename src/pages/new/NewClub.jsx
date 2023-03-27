@@ -40,7 +40,7 @@ const New = () => {
       icon: "success",
       confirmButtonText: "OK",
     }).then(function () {
-      window.location.href = "/standbystadium"
+      window.location.href = "/club"
     });
   }
 
@@ -53,15 +53,24 @@ const New = () => {
     })
   }
 
+  function showWarning(text) {
+    Swal.fire({
+      title: "Please !",
+      text: text,
+      icon: "info",
+      confirmButtonText: "OK",
+    })
+  }
+
   const handleClick = async (e) => {
     e.preventDefault();
-    if (stadiumId == null || stadiumId == 0) alert("Please select a stadium!")
+    if (stadiumId == null || stadiumId == 0) showWarning("Please select a stadium!")
     else {
       const data = new FormData();
       data.append("file", file);
       data.append("upload_preset", "upload");
       try {
-        const uploadRes = await Axios.post("https://api.cloudinary.com/v1_1/dg7i8w3xh/image/upload", data);
+        const uploadRes = await Axios.post("https://api.cloudinary.com/v1_1/dlpfx0tnv/image/upload", data);
 
         const { url } = uploadRes.data;
 
@@ -77,9 +86,7 @@ const New = () => {
           })
           .catch(error => {
             showError(error)
-            console.log(error);
           });
-        window.location.href = "/club"
       } catch (err) {
         showError(err)
         console.log(err);

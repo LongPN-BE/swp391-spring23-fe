@@ -64,10 +64,10 @@ const New = () => {
 
   const { idArea, amount, price } = formValue;
 
-  function showAlert() {
+  function showSuccess() {
     Swal.fire({
       title: "Create Success",
-      text: "Ticket amount: " + amount + " with price: " + price,
+      text: "Ticket amount: " + amount + " with price: " + price.toLocaleString() ,
       icon: "success",
       confirmButtonText: "OK",
     }).then(function () {
@@ -105,7 +105,7 @@ const New = () => {
         "quantity": amount
       })
         .then(response => {
-          showAlert()
+          showSuccess()
         })
         .catch(error => {
           showError(error)

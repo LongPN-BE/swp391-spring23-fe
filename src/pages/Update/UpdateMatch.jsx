@@ -95,7 +95,7 @@ const UpdateMatch = () => {
               .then(response => { window.location.href = "../match" })
           })
           .catch(error => {
-            showError(error)
+            showError(error.response.data.message)
             console.log(error);
           });
       } else if (result.isDenied) {
